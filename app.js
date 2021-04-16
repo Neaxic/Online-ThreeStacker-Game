@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const serv = require('http').Server(app);
 
-const io = require('socket.io')(serv,{});
+const io = require('socket.io')(serv);
 const PORT = process.env.PORT || 8081
 
 var playerOne, playerTwo, playerOneScore, playerTwoScore;
@@ -10,8 +10,6 @@ var playersDead = 0;
 
 
 app.use(express.static(__dirname + '/ThreeStacker'));
-app.use('/node_modules', express.static(__dirname + '/node_modules'));
-
 
 io.on('connection', (socket) => {
   console.log(`New connection ${socket.id}`);
