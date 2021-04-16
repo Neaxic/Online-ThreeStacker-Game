@@ -1,0 +1,25 @@
+{
+  "name": "online-threestacker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "cannon": "^0.6.2",
+    "express": "^4.17.1",
+    "socket.io": "^4.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Neaxic/Online-ThreeStacker.git"
+  },
+  "author": "Andreas Østergaard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Neaxic/Online-ThreeStacker/issues"
+  },
+  "homepage": "https://github.com/Neaxic/Online-ThreeStacker#readme"
+}
