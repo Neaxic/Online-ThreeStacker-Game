@@ -322,7 +322,7 @@ function generateBox(x,y,z,width,depth, falls, player){
 }
 
 function animation(){
-  const speed = 0.05;
+  const speed = 1;
 
   const topLayer = stack[stack.length - 1];
   topLayer.threejs.position[topLayer.direction] += speed;
