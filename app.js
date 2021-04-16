@@ -1,9 +1,8 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const io = require('socket.io')(server);
-var PORT = 3000
+var express = require('express');
+var app = express();
+var serv = require('http').Server(app);
+var io = require('socket.io')(serv,{});
+var PORT = process.env.PORT || 8081
 
 var playerOne, playerTwo, playerOneScore, playerTwoScore;
 var playersDead = 0;
