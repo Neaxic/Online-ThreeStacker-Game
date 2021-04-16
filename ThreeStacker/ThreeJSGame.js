@@ -14,6 +14,7 @@ let overhangs = [];
 let playerID;
 const boxHeight = 1;
 const originalBoxSize = 3;
+const speed = .5;
 
 window.addEventListener("click", () => {
   if(!gameStarted || gameEnded){
@@ -322,8 +323,6 @@ function generateBox(x,y,z,width,depth, falls, player){
 }
 
 function animation(){
-  const speed = 1;
-
   const topLayer = stack[stack.length - 1];
   topLayer.threejs.position[topLayer.direction] += speed;
   topLayer.cannonjs.position[topLayer.direction] += speed;
