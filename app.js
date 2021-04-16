@@ -1,8 +1,9 @@
-var express = require('express');
-var app = express();
-var serv = require('http').Server(app);
-var io = require('socket.io')(serv,{});
-var PORT = process.env.PORT || 8081
+const express = require('express');
+const app = express();
+const serv = require('http').Server(app);
+
+const io = require('socket.io')(serv,{});
+const PORT = process.env.PORT || 8081
 
 var playerOne, playerTwo, playerOneScore, playerTwoScore;
 var playersDead = 0;
@@ -86,7 +87,7 @@ io.on('connection', (socket) => {
       });
   });
 
-server.listen(PORT, ()=>{
+serv.listen(PORT, ()=>{
     console.log('Server started: '+PORT);
 });
 
