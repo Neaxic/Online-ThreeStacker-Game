@@ -1,0 +1,191 @@
+@font-face {
+  font-family: Mignon-Medium;
+  src: url("Mignon-Medium.otf");
+}
+
+:root {
+  --gray0: #f8f8f8;
+  --gray1: #dbe1e8;
+  --gray2: #b2becd;
+  --gray3: #6c7983;
+  --gray4: #454e56;
+  --gray5: #2a2e35;
+  --gray6: #040404;
+}
+
+.light {
+  --bg: var(--gray0);
+  --text: var(--gray6);
+}
+
+.dark {
+  --bg: var(--gray6);
+  --text: var(--gray0);
+}
+
+#Themes {
+  color: var(--text);
+  position: fixed;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  list-style: none;
+}
+
+#Themes a {
+  color: var(--text);
+  padding-right: 20px;
+  width: 20%;
+}
+
+#Themes li #login {
+  float: right;
+}
+
+body {
+  z-index: 0;
+  background-color: var(--bg);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+.Wrapper {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: var(--text);
+}
+
+.Wrapper a {
+  font-family: Mignon-Medium;
+  color: var(--text);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  padding-right: 20px;
+}
+
+.Form {
+  background-color: var(--text);
+  width: 25%;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Form p,
+.Form h1 {
+  color: var(--bg);
+  font-family: Mignon-Medium;
+}
+
+p {
+  font-family: Mignon-Medium;
+}
+
+.Wrapper a:hover {
+  text-decoration: underline;
+}
+
+.About {
+  font-family: Mignon-Medium;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  top: 110%;
+  margin-left: 25%;
+  margin-right: 25%;
+  position: absolute;
+  color: var(--text);
+}
+
+#overskrift,
+#beskrivelse {
+  color: var(--text);
+}
+
+input {
+  border: none;
+  color: var(--text);
+  border-bottom: 1px solid #ccc;
+  background-color: #ffffff00;
+  font-family: Mignon-Medium;
+  text-transform: uppercase;
+  display: inline-block;
+  width: 250px;
+}
+
+textarea {
+  color: var(--text);
+}
+
+.content {
+  font-family: Mignon-Medium;
+  text-transform: uppercase;
+  text-emphasis: none;
+  letter-spacing: 2px;
+  top: 80%;
+  margin-left: 25%;
+  margin-right: 25%;
+  position: absolute;
+  color: var(--text);
+}
+
+.projects {
+  color: var(--text);
+  left: 10%;
+  display: inline-block;
+}
+
+.projects a {
+  font-family: Mignon-Medium;
+  color: var(--text);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  padding-right: 20px;
+}
+
+.projects a:hover {
+  text-decoration: underline;
+}
+
+.moving-mouse-holder {
+  top: 80%;
+  right: 50%;
+  position: absolute;
+}
+
+.moving-mouse-holder .mouse {
+  width: 26px;
+  height: 40px;
+  border-radius: 18px;
+  border: 2px solid;
+  border-color: var(--text);
+}
+
+.moving-mouse-holder .mouse-button {
+  background-color: var(--text);
+  width: 4px;
+  height: 10px;
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  margin: 0 0 0 -2px;
+  animation: mouse-scroll 1s infinite alternate;
+}
+
+@keyframes mouse-scroll {
+  to {
+    transform: translate(0, 6px) scale(1, 0.8);
+  }
+}
+
+#FarveRed {
+  background-color: red;
+}
