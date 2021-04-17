@@ -14,7 +14,7 @@ let overhangs = [];
 let playerID;
 const boxHeight = 1;
 const originalBoxSize = 3;
-const speed = .5;
+const speed = .2;
 
 window.addEventListener("click", () => {
   if(!gameStarted || gameEnded){
