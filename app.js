@@ -8,12 +8,20 @@ const PORT = process.env.PORT || 8081
 var playerOne, playerTwo, playerOneScore, playerTwoScore;
 var playersDead = 0;
 
+var players = []
 
 app.use(express.static(__dirname + '/ThreeStacker'));
 
 io.on('connection', (socket) => {
-  console.log(`New connection ${socket.id}`);
+  players.push(`${socket.id}`)
+  console.log("PLAYERS: " +players);
+  io.emit('players', players.length);
+
   socket.on('disconnect', () => {
+    var index = players.indexOf(`${socket.id}`);
+    players.splice(index, 1);
+    socket.broadcast.emit('players', players.length);
+
     if(socket.id == playerOne){
       playerOne = null
       console.log(`Player one disconnected!: ${socket.id}`);

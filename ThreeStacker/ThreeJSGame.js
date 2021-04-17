@@ -390,4 +390,9 @@ socket.on('id', function(data){
   playerID = data;
 });
 
+socket.on('players', function(data){
+  console.log(data);
+  document.getElementById("players").innerText = "Players: " +data;
+});
+
 init();
