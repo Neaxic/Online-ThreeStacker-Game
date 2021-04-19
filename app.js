@@ -67,10 +67,18 @@ io.on('connection', (socket) => {
               socket.emit('gameWON');
               socket.broadcast.emit('gameLost');
               playersDead = 0;
+              playerOneScore = 0;
+              playerOne = null
+              playerTwoScore = 0;
+              playerTwo = null
             } else {
               socket.emit('gameLost');
               socket.broadcast.emit('gameWON');
               playersDead = 0;
+              playerOneScore = 0;
+              playerOne = null
+              playerTwoScore = 0;
+              playerTwo = null
             }
           } 
         } else {
@@ -81,10 +89,18 @@ io.on('connection', (socket) => {
               socket.emit('gameWON');
               socket.broadcast.emit('gameLost');
               playersDead = 0;
+              playerOneScore = 0;
+              playerOne = null
+              playerTwoScore = 0;
+              playerTwo = null
             } else {
               socket.emit('gameLost');
               socket.broadcast.emit('gameWON');
               playersDead = 0;
+              playerOneScore = 0;
+              playerOne = null
+              playerTwoScore = 0;
+              playerTwo = null
             }
           } else {
           }

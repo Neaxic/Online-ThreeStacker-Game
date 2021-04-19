@@ -3,18 +3,20 @@ import * as THREE from '/node_modules/three/build/three.module.js';
 
 var socket = io();
 
-let camera, scene, sceneOnline, renderer, world;
+let camera, scene, renderer, world;
 let gameStarted = false;
 let gameEnded = false;
 let stack = [];
 let oppStack = [];
-let score = document.getElementById("score")
 let lastTime;
 let overhangs = [];
 let playerID;
 const boxHeight = 1;
 const originalBoxSize = 3;
-const speed = .2;
+
+// TODO: REMEBER TO MAKE THIS FALSE ON GAME RESTART WHEN BUTTN IS ADDED
+// RN JUST RELOAD.
+var checkOutOfBounds = false;
 
 window.addEventListener("click", () => {
   if(!gameStarted || gameEnded){
@@ -66,7 +68,7 @@ function gameSTART(){
   
       addLayer(nextX, nextZ, topLayer.width, topLayer.depth, nextDirection);
 
-      score.innerHTML = stack.length-1;
+      document.getElementById("score").innerText = "Score: " +stack.length;
     }else {
       missedBlock();
     }
@@ -110,7 +112,6 @@ function oppSTART(){
 
     OppaddLayer(nextX, nextZ, topLayer.width, topLayer.depth, nextDirection);
 
-    score.innerHTML = stack.length-1;
   }else {
     oppmissedBlock();
   }
@@ -122,7 +123,7 @@ function gameOverAnimation(){
   scene.background = new THREE.Color(0xf52f22);
   scene.fog = new THREE.Fog((new THREE.Color('red')), 1, 10);
   document.getElementById("GameoverH1").innerText = "Gameover!"
-  document.getElementById("GameoverP").innerText = ("Your final score was: " + (stack.length-1));
+  document.getElementById("GameoverP").innerText = ("Your final score was: " + (stack.length));
   gameEnded = true;
 }
 
@@ -130,7 +131,7 @@ function gameWinAnimation(){
   scene.background = new THREE.Color(0x42f572);
   scene.fog = new THREE.Fog((new THREE.Color('green')), 1, 10);
   document.getElementById("GameoverH1").innerText = "CONGRATULATIONS, YOU WON!"
-  document.getElementById("GameoverP").innerText = ("Your final score was: " + (stack.length-1));
+  document.getElementById("GameoverP").innerText = ("Your final score was: " + (stack.length));
   gameEnded = true;
 }
 
@@ -153,7 +154,6 @@ function oppmissedBlock(){
   scene.remove(topLayer.threejs);
 }
 
-
 function init() {
 
   world = new CANNON.World();
@@ -162,7 +162,6 @@ function init() {
   world.solver.iterations = 40;
 
   scene = new THREE.Scene();
-  sceneOnline = new THREE.Scene();
 
   //one on origial:
   addLayer(-2,2,originalBoxSize, originalBoxSize);
@@ -188,7 +187,8 @@ function init() {
   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-  directionalLight.position.set(10,20,0);
+  directionalLight.position.set(10,60,0);
+  directionalLight.castShadow = true;
   scene.add(directionalLight);
 
   const width = 10;
@@ -198,12 +198,32 @@ function init() {
     width / 1,
     height / 1,
     height / -1,
-    1,
-    100
+    -1,
+    20
   );
 
-const gridHelper = new THREE.GridHelper( 20, 20 );
-scene.add( gridHelper );
+//const gridHelper = new THREE.GridHelper( 20, 20 );
+//scene.add( gridHelper );
+
+    const floorplane = new THREE.PlaneGeometry(40,40);
+    const floorpanemat = new THREE.MeshLambertMaterial({color: 0xBBBBBB})
+    const pane = new THREE.Mesh(floorplane, floorpanemat);
+    scene.add(pane);
+    pane.position.y = -1;
+    pane.rotation.x = -1.555;
+
+
+        //CANNONJS
+        const shape = new CANNON.Box(
+          new CANNON.Vec3(40, 1,40)
+        );
+        let mass = false ? 5 : 0;
+        const body = new CANNON.Body({ mass, shape});
+        body.position.set(0,-1.5,0);
+        world.addBody(body);
+
+    var axisHelper = new THREE.AxisHelper(100);
+    scene.add(axisHelper);
 
   camera.position.set(4,4,4);
   camera.lookAt(0,0,0);
@@ -298,7 +318,8 @@ function generateBox(x,y,z,width,depth, falls, player){
     const geometry = new THREE.BoxGeometry(width,boxHeight,depth);
     const color = new THREE.Color(`hsl(${180 + oppStack.length * 4}, 100%, 50%)`);
     const material = new THREE.MeshLambertMaterial({color});
-  
+    document.getElementById("oppscore").innerText = "Opp Score: " +oppStack.length;
+
     const mesh = new THREE.Mesh(geometry,material);
     mesh.position.set(x,y,z);
     scene.add(mesh);  
@@ -323,10 +344,16 @@ function generateBox(x,y,z,width,depth, falls, player){
 }
 
 function animation(){
+  requestAnimationFrame(animation);
+  const speed = .05;
   const topLayer = stack[stack.length - 1];
   topLayer.threejs.position[topLayer.direction] += speed;
   topLayer.cannonjs.position[topLayer.direction] += speed;
-
+  
+  if(topLayer.threejs.position[topLayer.direction] > 10 && !checkOutOfBounds){
+    missedBlock();
+    checkOutOfBounds = true;
+  }
   
   const opptopLayer = oppStack[oppStack.length - 1];
   opptopLayer.threejs.position[opptopLayer.direction] += speed;
@@ -346,6 +373,7 @@ function animation(){
   updatePhysics();
   renderer.render(scene,camera);
 }
+
 
 function updatePhysics(){
   world.step(1 / 60);
@@ -368,7 +396,7 @@ socket.on('oppFail', function(data){
 */
 
 socket.on('allRdy', function(data){
-  renderer.setAnimationLoop(animation);
+  animation();
   gameStarted = true;
 });
 
@@ -391,7 +419,6 @@ socket.on('id', function(data){
 });
 
 socket.on('players', function(data){
-  console.log(data);
   document.getElementById("players").innerText = "Players: " +data;
 });
 
