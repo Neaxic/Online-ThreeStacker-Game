@@ -1,4 +1,5 @@
 # Online-ThreeStacker
+Online tree stacker game, two player playable directly from your browser.
 Basic game made using socket, threejs, cannonjs and express.
 Originally was inspired from another dev's repo, but uncertain of the simmilarties.
 Use, manipulate or distribute as you wish.
